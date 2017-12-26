@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KategoriUrunDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="KategoriUrunDbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Kategoriler" EntityType="KategoriUrunDbModel.Kategoriler" />
+    <EntitySet Name="Urunler" EntityType="KategoriUrunDbModel.Urunler" />
+    <AssociationSet Name="FK_Urunler_Kategoriler" Association="KategoriUrunDbModel.FK_Urunler_Kategoriler">
+      <End Role="Kategoriler" EntitySet="Kategoriler" />
+      <End Role="Urunler" EntitySet="Urunler" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Kategoriler">
+    <Key>
+      <PropertyRef Name="KatID" />
+    </Key>
+    <Property Name="KatID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KategoriAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Urunler" Relationship="KategoriUrunDbModel.FK_Urunler_Kategoriler" FromRole="Kategoriler" ToRole="Urunler" />
+  </EntityType>
+  <EntityType Name="Urunler">
+    <Key>
+      <PropertyRef Name="UrunID" />
+    </Key>
+    <Property Name="UrunID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UrunAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Miktar" Type="Int32" />
+    <Property Name="KatID" Type="Int32" />
+    <NavigationProperty Name="Kategoriler" Relationship="KategoriUrunDbModel.FK_Urunler_Kategoriler" FromRole="Urunler" ToRole="Kategoriler" />
+  </EntityType>
+  <Association Name="FK_Urunler_Kategoriler">
+    <End Type="KategoriUrunDbModel.Kategoriler" Role="Kategoriler" Multiplicity="0..1" />
+    <End Type="KategoriUrunDbModel.Urunler" Role="Urunler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kategoriler">
+        <PropertyRef Name="KatID" />
+      </Principal>
+      <Dependent Role="Urunler">
+        <PropertyRef Name="KatID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
